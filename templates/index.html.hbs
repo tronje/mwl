@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>MWL</title>
+        <link rel="stylesheet" href="../static/css/main.css">
+    </head>
+    <body>
+        <div class="logo">
+            <!--<img src="../static/logo.png" width="160" height="90" />-->
+            <a href="/home"><h1>MWL</h1></a>
+        </div>
+        <h1>Welcome, {{user}}!</h1>
+        <h2>Your saved movies:</h2>
+        <ul>
+          {{#each movies}}
+            <li>{{this}}</li>
+          {{/each}}
+        </ul>
+    </body>
+</html>

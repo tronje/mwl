@@ -1,0 +1,31 @@
+/*
+ * MWL stylesheets
+ * github.com/tronje/mwl
+ */
+
+body {
+    margin: 0 auto;
+    max-width: 50em;
+
+    font-family: "Arial", sans-serif;
+
+    line-height: 1.5;
+    padding: 4em, 1em;
+
+    color: #fffff0;
+    background-color: #333333;
+}
+
+h1 {
+    color: #ffffc0;
+}
+
+a {
+    color: #cb4b16;
+}
+
+.logo {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+}

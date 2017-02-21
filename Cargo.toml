@@ -1,0 +1,18 @@
+[package]
+name = "mwl"
+version = "0.1.0"
+authors = ["tronje <hi@tron.je>"]
+
+[dependencies]
+rocket = "0.1.4"
+rocket_codegen = "0.1.4"
+serde = "*"
+serde_derive = "*"
+serde_json = "*"
+bcrypt = "0.1"
+rusqlite = "0.8"
+
+[dependencies.rocket_contrib]
+version = "*"
+default-features = false
+features = ["handlebars_templates"]
