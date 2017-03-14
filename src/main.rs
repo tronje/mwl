@@ -30,7 +30,7 @@ fn root() -> Redirect {
 fn home(cookies: &http::Cookies) -> Redirect {
     match cookies.find("user") {
         Some(cookie) => Redirect::to(
-            format!("/home/{}", cookie.value).as_str()),
+            format!("/home/{}", cookie.value()).as_str()),
         None => Redirect::to("/login"),
     }
 }
@@ -91,36 +91,37 @@ fn login(cookies: &http::Cookies, user: Form<forms::Login>)
     };
 
     // look up password in db and compare to transmitted password
-    let success = match db.query_row(
-        "SELECT user, pass FROM users WHERE name=?1",
+    let success = match db.query_row::<String, _>(
+        "SELECT password FROM users WHERE name=?1",
         &[&name],
-        |row| {row.get::<String, String>("pass")},
-        ) {
-        Ok(p) => match bcrypt::verify(p.as_str(), pass.as_str()) {
-            Ok(valid) => valid,
-            Err(_) => return Err(Failure(http::Status::InternalServerError)),
-        },
-        // return forbidden if the password is wrong
-        Err(_) => return Err(Failure(http::Status::Forbidden)),
-    };
+        |row| {row.get(0)})
+            {
+                Ok(p) => match bcrypt::verify(p.as_str(), pass.as_str()) {
+                    Ok(valid) => valid,
+                    Err(_) => return Err(Failure(http::Status::InternalServerError)),
+                },
+                // return forbidden if the password is wrong
+                Err(_) => return Err(Failure(http::Status::Forbidden)),
+            };
 
     if !success {
         panic!("impossible!");
     }
 
     // add cookie for username
-    cookies.add(http::Cookie::new("user".into(), login_data.name));
+    cookies.add(http::Cookie::new("user", name));
 
     // add cookie for session token
-    cookies.add(http::Cookie::new("session".into(), "goodsessiontoken"));
+    cookies.add(http::Cookie::new("session", "goodsessiontoken"));
 
-    Redirect::to("/")
+    Ok(Redirect::to("/"))
 }
 
-#[post("/register")]
-fn register(form: Form<forms::Register>) -> Redirect {
-    
-}
+//#[post("/register")]
+//fn register(form: Form<forms::Register>) -> Redirect {
+    //// TODO
+    //Redirect::to("/")
+//}
 
 #[get("/static/<file..>")]
 fn static_content(file: PathBuf) -> Option<NamedFile> {
