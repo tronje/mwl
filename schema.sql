@@ -1,7 +1,7 @@
-drop table if exists users;
-create table users (
-    id integer unique primary key autoincrement,
-    name text unique not null,
-    password text not null,
-    session_token text unique
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+    id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    session_token TEXT UNIQUE
 );
